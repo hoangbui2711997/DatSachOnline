@@ -1,6 +1,7 @@
 package sachonline.data.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -32,7 +33,7 @@ public class Sach {
 
     @Column(nullable = true)
     private String biaSach;
-    @Column(nullable = true)
+    @Column(nullable = true, length = 2000)
     private String hinhAnhTieuBieu;
 
     @Override
@@ -106,6 +107,7 @@ public class Sach {
     }
 
     @OneToMany(mappedBy = "sachNhapBan", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JsonIgnore
     private List<SachNhapBan> sachNhapBan;
 
@@ -125,7 +127,9 @@ public class Sach {
         this.lstTacGia = lstTacGia;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.ALL
+    })
     @JoinTable(
             name = "sach_tacgia",
             joinColumns = {

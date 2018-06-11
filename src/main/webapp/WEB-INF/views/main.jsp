@@ -8,62 +8,62 @@
 <%@ include file="fragment/header.jsp"%>
 
 <section id="test">
-    <%--<form method="post" enctype="multipart/form-data" @submit.prevent="postImage">--%>
-        <input ref="file" class="form-control form-control-file" @change="postImage" type="file" multiple/>
-        <%--<button type="submit">--%>
-            <%--submit--%>
-        <%--</button>--%>
-    </form>
+    <%--&lt;%&ndash;<form method="post" enctype="multipart/form-data" @submit.prevent="postImage">&ndash;%&gt;--%>
+        <%--<input ref="file" class="form-control form-control-file" @change="postImage" type="file" multiple/>--%>
+        <%--&lt;%&ndash;<button type="submit">&ndash;%&gt;--%>
+            <%--&lt;%&ndash;submit&ndash;%&gt;--%>
+        <%--&lt;%&ndash;</button>&ndash;%&gt;--%>
+    <%--</form>--%>
 </section>
 
 <%@ include file="fragment/footer.jsp"%>
 
-<script>
-    new Vue({
-        el: "#test",
-        methods: {
-            postImage() {
-                var formData = new FormData();
-                console.log(this.$refs.file.files[0])
+<%--<script>--%>
+    <%--new Vue({--%>
+        <%--el: "#test",--%>
+        <%--methods: {--%>
+            <%--postImage() {--%>
+                <%--var formData = new FormData();--%>
+                <%--console.log(this.$refs.file.files[0])--%>
 
-                formData.append('file', this.$refs.file.files[0])
+                <%--formData.append('file', this.$refs.file.files[0])--%>
 
-                console.log(formData.getAll('file'))
+                <%--console.log(formData.getAll('file'))--%>
 
-                // var config = {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p'
-                //     },
-                // }
+                <%--// var config = {--%>
+                <%--//     headers: {--%>
+                <%--//         'Content-Type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p'--%>
+                <%--//     },--%>
+                <%--// }--%>
 
-                axios.post('<spring:url value="/sach/postAnh" />', formData)
-                    .then(function (value) {
-                        console.log("Thanh cong")
-                    })
-                    .catch(function (reason) {
-                        console.log("That bai")
-                    })
-
-                <%--axios({--%>
-                    <%--method: 'post',--%>
-                    <%--url: '<spring:url value="/sach/postAnh" />',--%>
-                    <%--data: {--%>
-                        <%--filePost: formData--%>
-                    <%--},--%>
-                    <%--headers: {--%>
-                        <%--'Content-Type': 'multipart/form-data'--%>
-                    <%--}--%>
-                <%--})--%>
-                <%--.then(function (value) {--%>
-                        <%--console.log('Thanh cong')--%>
+                <%--axios.post('<spring:url value="/sach/postAnh" />', formData)--%>
+                    <%--.then(function (value) {--%>
+                        <%--console.log("Thanh cong")--%>
                     <%--})--%>
-                <%--.catch(function (reason) {--%>
-                        <%--console.log('Loi')--%>
+                    <%--.catch(function (reason) {--%>
+                        <%--console.log("That bai")--%>
                     <%--})--%>
-                // formData.append('file', this.file)
-            }
-        }
-    })
-</script>
+
+                <%--&lt;%&ndash;axios({&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;method: 'post',&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;url: '<spring:url value="/sach/postAnh" />',&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;data: {&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;filePost: formData&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;},&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;headers: {&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;'Content-Type': 'multipart/form-data'&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;}&ndash;%&gt;--%>
+                <%--&lt;%&ndash;})&ndash;%&gt;--%>
+                <%--&lt;%&ndash;.then(function (value) {&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;console.log('Thanh cong')&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;})&ndash;%&gt;--%>
+                <%--&lt;%&ndash;.catch(function (reason) {&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;console.log('Loi')&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;})&ndash;%&gt;--%>
+                <%--// formData.append('file', this.file)--%>
+            <%--}--%>
+        <%--}--%>
+    <%--})--%>
+<%--</script>--%>
 
 

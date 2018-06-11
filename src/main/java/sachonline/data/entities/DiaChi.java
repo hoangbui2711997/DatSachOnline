@@ -1,6 +1,7 @@
 package sachonline.data.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -54,6 +55,7 @@ public class DiaChi {
     }
 
     @OneToMany(mappedBy = "diaChi", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JsonIgnore
     private List<HoaDon> lstHoaDon;
 

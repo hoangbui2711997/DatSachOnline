@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import sachonline.data.entities.*;
+import sachonline.data.repositories.SachRepository;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -19,12 +20,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 public class DatsachonlineApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
     @Autowired
     EntityManager entityManager;
+    @Autowired
+    SachRepository sachRepository;
 
     Logger logThis = LoggerFactory.getLogger(this.getClass());
 
@@ -416,6 +420,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         entityManager.flush();
     }
     private void addHoaDonNhapSach() {
+        Random random = new Random();
         // Địa chỉ
         DiaChi diaChi = addDiaChi(EnumDiaChi.DIA_CHI_NHA_RIENG, "Xuân Tảo");
 
@@ -436,7 +441,9 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         sachNhapBan.setSoLuong(20);
 
         // Lấy sách muốn nhập trong database
-        Sach sachNhap = entityManager.find(Sach.class, 2L);
+
+//        Sach sachNhap = entityManager.find(Sach.class, 2L);
+        Sach sachNhap = sachRepository.getAll().get(random.nextInt(sachRepository.getAll().size()));
 
         // Nhập vào sách muốn nhập
         sachNhapBan.setSachNhapBan(sachNhap);
@@ -454,6 +461,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         entityManager.flush();
     }
     private void addHoaDonBanSach() {
+        Random random = new Random();
         DiaChi diaChi = addDiaChi(EnumDiaChi.DIA_CHI_CHUNG_CU, "Xuân La");
 
         // Hóa đơn
@@ -471,7 +479,9 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         sachNhapBan.setSoLuong(10);
 
         // Lấy sách muốn nhập trong database
-        Sach sachNhap = entityManager.find(Sach.class, 2L);
+//        Sach sachNhap = entityManager.find(Sach.class, 2L);
+
+        Sach sachNhap = sachRepository.getAll().get(random.nextInt(sachRepository.getAll().size()));
 
         // Nhập vào sách muốn nhập
         sachNhapBan.setSachNhapBan(sachNhap);

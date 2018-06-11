@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "TacGia")
 public class TacGia {
 
-    @ManyToMany(mappedBy = "lstTacGia")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "lstTacGia")
     @JsonIgnore
     private List<Sach> lstSach;
 

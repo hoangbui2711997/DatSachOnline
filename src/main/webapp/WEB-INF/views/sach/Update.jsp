@@ -20,7 +20,7 @@
         cursor: pointer;
     }
 </style>
-<section class="container" id="updateSach">
+<section class="section-body container" id="updateSach">
     <spring:url value="/sach/updatePost" var="urlUpdatePost"/>
     <spring:url value="/sach/postAnh" var="postAnh"/>
     <spring:url value="/img/" var="context"></spring:url>
@@ -128,7 +128,7 @@
                         <%--</div>--%>
                         <%--</c:forEach>--%>
                     <form:input path="hinhAnhTieuBieu" v-model="lstHinhAnhTieuBieu" hidden="true"/>
-                    <div v-for="hinhAnh in hinhAnhTieuBieu" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                    <div v-for="hinhAnh in hinhAnhTieuBieu" class="col-lg-2 col-md-3 col-sm-4 col-6" @click="deleteImage(hinhAnh)">
 
                         <img class="img-thumbnail" :src="hinhAnh" alt="Card image cap"
                              style="max-width: 150px; max-height: 150px;
@@ -145,6 +145,7 @@
 
         <div class="form-group py-1">
             <label class="label"><h4>Image label of the book</h4></label>
+
             <form:input path="biaSach" hidden="true" v-model="biaSach"></form:input>
             <input type="file" name="biaSachX" class="form-control form-control-file" ref="anhBia"
                    @change="postAnhBia"/>
@@ -170,7 +171,7 @@
                 strTacGia: '',
                 file: '',
                 hinhAnhTieuBieu: '',
-                lstHinhAnhTieuBieu: '',
+                lstHinhAnhTieuBieu: '${sach.hinhAnhTieuBieu == null ? "" : sach.hinhAnhTieuBieu}',
                 biaSach: '${sach.biaSach == null ? "" : sach.biaSach}'
             }
         },
@@ -280,6 +281,11 @@
                     .catch(function (reason) {
                         console.log('Loi')
                     })
+            },
+            deleteImage(hinhAnh) {
+                var indexDel = this.hinhAnhTieuBieu.indexOf(hinhAnh)
+                this.hinhAnhTieuBieu.splice(indexDel, 1)
+                this.lstHinhAnhTieuBieu = this.hinhAnhTieuBieu.toString()
             }
         },
         computed: {

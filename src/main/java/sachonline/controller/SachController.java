@@ -38,12 +38,13 @@ public class SachController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String doCreate(
-            @ModelAttribute("sach") Sach sach,
-            @RequestParam("lstTacgia") String lstTacgia
+            @ModelAttribute("sach") Sach sach
+            ,@RequestParam("lstTacgia") String lstTacgia
     ) throws IOException {
 //        String rootPath = System.getProperty("catalina.home");
 
         // Xử lý List tác giả
+
         List<TacGia> lstDaDuocTao = xuLyTacGia(lstTacgia);
 
         sach.setLstTacGia(lstDaDuocTao);

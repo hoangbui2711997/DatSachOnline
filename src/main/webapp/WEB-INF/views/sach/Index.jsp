@@ -82,7 +82,7 @@
 
 <spring:url value="/sach/update" var="update"></spring:url>
 
-<section class="container-fluid">
+<section class="section-body container-fluid">
     <div class="row">
         <div class="col-0 col-md-2"></div>
         <div class="col-12 col-md-9">
