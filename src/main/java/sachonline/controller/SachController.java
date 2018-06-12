@@ -132,6 +132,14 @@ public class SachController {
         return "sach/Create";
     }
 
+    @RequestMapping(value = "/detail/{maSach}", method = RequestMethod.GET)
+    public String detail(Model model, @PathVariable Long maSach) {
+        Sach sach = sachRepository.findId(maSach);
+        model.addAttribute("sach", sach);
+
+        return "sach/Detail";
+    }
+
     @RequestMapping(value = "/update/{maSach}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long maSach) {
         Sach sach = sachRepository.findId(maSach);
@@ -194,7 +202,15 @@ public class SachController {
         }
     }
 
-    
+    @RequestMapping(value = "/getSach", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Sach> getSach() {
+        List<Sach> lstSach = sachRepository.getAll();
+        lstSach.forEach(e -> System.out.println(e.getLstTacGia().size()));
+        return
+                lstSach;
+    }
+
     private void uploadAnh(MultipartFile file, String pathResource) {
         try {
             File dir = new File(pathResource);
@@ -216,8 +232,6 @@ public class SachController {
             e.printStackTrace();
         }
     }
-
-
 
     @ModelAttribute("lstSach")
     public List<Sach> lstSach() {

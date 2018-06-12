@@ -160,6 +160,7 @@
 <%@ include file="../fragment/footer.jsp" %>
 
 <script>
+    vm1._data.showSearch = false
 
     var vueData = new Vue({
         el: '#updateSach',

@@ -7,9 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 
 @EnableWebSecurity
@@ -76,26 +73,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ////        BasicAuthenticationFilter filter = new BasicAuthenticationFilter(super.authenticationManagerBean());
 //
         http.authorizeRequests()
-                .regexMatchers("/admin/.*")
+                .regexMatchers("/js/.*", "/css/.*", "/img/.*")
+                .permitAll()
+                .regexMatchers("/user/.*")
+                .authenticated()
+                .regexMatchers("/sach/index")
+                .permitAll()
+                .regexMatchers("/admin/.*", "/sach/update/.*", "/sach/create")
 //                .access("hasRole('ADMIN') and principal.username='admin'").anyRequest()
                 .hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
+        ;
 //                .and().httpBasic()
 //                .and().requiresChannel().anyRequest()
 //                .requiresSecure()
 //                .and().exceptionHandling().authenticationEntryPoint(customDigestAuthenticationEntryPoint)
 //                .accessDeniedPage("/error")
 //                .and().requiresChannel().anyRequest().requiresSecure()
-                .and().addFilter(digestAuthenticationFilter());
+//                .and().addFilter(digestAuthenticationFilter());
 //
         http.formLogin()
-                .loginPage("/login")
+                .loginPage("/user/login")
+                .permitAll()
                 .loginProcessingUrl("/processLogin")
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .defaultSuccessUrl("/admin/sach")
-                .permitAll()
         ;
 
         http.logout()

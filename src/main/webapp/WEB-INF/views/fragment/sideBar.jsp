@@ -10,7 +10,7 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b"
-                collapse-transition="true"
+                :collapse-transition="true"
                 default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
             <el-submenu index="1">
                 <template slot="title">

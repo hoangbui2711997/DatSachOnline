@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping("/user")
 public class LoginController {
 
 //    @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -12,6 +13,12 @@ public class LoginController {
 //        return "login";
 //    }
 //
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String getLogin() {
+        return "login";
+    }
+
 
     @RequestMapping(value ="/register", method = RequestMethod.POST)
     public String register() {

@@ -129,7 +129,7 @@ public class Sach {
 
     @ManyToMany(cascade = {
             CascadeType.ALL
-    })
+    }, fetch = FetchType.EAGER)
     @JoinTable(
             name = "sach_tacgia",
             joinColumns = {
@@ -139,7 +139,7 @@ public class Sach {
                     @JoinColumn(name = "maTacGia")
             }
     )
-    @JsonIgnore
+//    @JsonIgnore
     private List<TacGia> lstTacGia;
 
     public Sach() {

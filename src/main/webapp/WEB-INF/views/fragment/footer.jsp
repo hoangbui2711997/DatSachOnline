@@ -20,4 +20,3 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="<spring:url value="/js/myJavaScript.js" />"></script>
 <%--<script src="<spring:url value="/js/vue-element-ui.js" />"></script>--%>
-</div>
