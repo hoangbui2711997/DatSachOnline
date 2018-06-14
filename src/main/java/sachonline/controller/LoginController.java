@@ -14,17 +14,29 @@ public class LoginController {
 //    }
 //
 
+    /**
+     * lấy form login
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String getLogin() {
         return "login";
     }
 
 
+    /**
+     * hoàn tất form đăng ký
+     * @return
+     */
     @RequestMapping(value ="/register", method = RequestMethod.POST)
     public String register() {
         return "register";
     }
 
+    /**
+     * lấy form đăng ký
+     * @return
+     */
     @RequestMapping(value = "/register")
     public String getRegister() {
         return "register";

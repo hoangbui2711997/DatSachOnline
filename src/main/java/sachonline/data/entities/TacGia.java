@@ -1,6 +1,7 @@
 package sachonline.data.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,13 +11,14 @@ import java.util.List;
 @Table(name = "TacGia")
 public class TacGia {
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "lstTacGia")
+    @ManyToMany(mappedBy = "lstTacGia")
     @JsonIgnore
     private List<Sach> lstSach;
 
     @Id
     @GeneratedValue
     private Long maTacGia;
+    @Column(unique = true)
     private String tenTacGia;
 
 

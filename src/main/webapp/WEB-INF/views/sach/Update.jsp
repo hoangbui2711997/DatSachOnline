@@ -20,7 +20,7 @@
         cursor: pointer;
     }
 </style>
-<section class="section-body container" id="updateSach">
+<section class="section-body container px-5" id="updateSach">
     <spring:url value="/sach/updatePost" var="urlUpdatePost"/>
     <spring:url value="/sach/postAnh" var="postAnh"/>
     <spring:url value="/img/" var="context"></spring:url>
@@ -48,9 +48,9 @@
                         style="border-radius: 10px; display: inline-block;">
                         {{ tacGia }} <span class="pl-2" @click="deleteTacGia(tacGia)">&times;</span>
                     </li>
-                    <li><input type="text" style="display: inline-block;"
-                               id="input-inside" v-model="txtSearch" class="form-control"
-                    /></li>
+                    <li>
+                        <el-input id="input-inside" placeholder="Please input authors" v-model="txtSearch"></el-input>
+                    </li>
                 </ul>
             </div>
                 <%--<select class="form-control">--%>
@@ -118,7 +118,7 @@
             <label class="label"><h4>Images descripted</h4></label>
             <div class="form-control">
                     <%--<input type="file" name="hinhAnhTieuBieuX" class="form-control form-control-file" multiple/>--%>
-                    <%--<form method="post" @submit="" enctype="multipart/form-data" action="postAnh">--%>
+                    <%--<form method="post" @submit="" enctype="multipart/form-data" action="postImages">--%>
                 <input ref="file" class="form-control form-control-file" type="file" @change="postImage" multiple/>
                 <div class="row">
                         <%--<c:forEach var="imageTieuBieu" items="${sach.hinhAnhTieuBieu.split(',')}">--%>

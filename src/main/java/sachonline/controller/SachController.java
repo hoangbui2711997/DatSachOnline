@@ -31,11 +31,22 @@ public class SachController {
     @Autowired
     SachRepository sachRepository;
 
+    /**
+     * lấy ra trang chủ
+     * @return View trang chủ
+     */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "sach/Index";
     }
 
+    /**
+     *
+     * @param sach đối tượng được tạo
+     * @param lstTacgia danh sách tác giả -
+     * @return Trả về view quản lý sách nếu tạo thành công, ngược lại về trang tạo sách
+     * @throws IOException
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String doCreate(
             @ModelAttribute("sach") Sach sach
@@ -44,65 +55,73 @@ public class SachController {
 //        String rootPath = System.getProperty("catalina.home");
 
         // Xử lý List tác giả
+        try {
+            List<TacGia> lstDaDuocTao = handleAuthors(lstTacgia);
+            sach.setLstTacGia(lstDaDuocTao);
+            sachRepository.insert(sach);
 
-        List<TacGia> lstDaDuocTao = xuLyTacGia(lstTacgia);
-
-        sach.setLstTacGia(lstDaDuocTao);
-        sachRepository.insert(sach);
-
+            return "admin/Sach";
+        } catch (Exception e) {
+            return "sach/Create";
+        }
 //        if (!file.isEmpty()) {
 //            file.getBytes();
 //            String rootPath = System.getProperty("catalina.home");
 //            Path path = Files.createFile(Paths.get(""));
 //
 //        }
-        return "sach/Index";
+
     }
 
-    private List<TacGia> xuLyTacGia(String lstTacgia) {
-        List<String> lstTenTacGia = Arrays.asList(lstTacgia.split(","));
-        List<TacGia> tatCaTacGia = tacGiaRepository.getAll();
+    /**
+     *
+     * @param lstTacgia chuỗi các tác giả bao gồm đã tạo và có thể có chưa được tạo trong Database
+     * @return trả về danh sách tác giả được tạo và đã tạo
+     */
+    private List<TacGia> handleAuthors(String lstTacgia) {
+        List<String> authorsName = Arrays.asList(lstTacgia.split(","));
+        List<TacGia> authors = tacGiaRepository.getAll();
 
-        List<String> strTatCaTacGia = tatCaTacGia
+        List<String> strAuthors = authors
                 .stream()
                 .map(TacGia::getTenTacGia)
                 .collect(Collectors.toList());
 
-        List<String> lstTacGiaCanDuocTao = null;
+        List<String> authorsNeedCreated = null;
 
         // Tao danh sach chua TacGia da duoc tao roi
-        List<TacGia> lstDaDuocTao = null;
+        List<TacGia> authorsCreated = null;
 
         // Lấy danh sách cần đươc tạo
         try {
-            lstTacGiaCanDuocTao = lstTenTacGia.stream()
+            authorsNeedCreated = authorsName.stream()
                     .filter(
-                            e -> !strTatCaTacGia.contains(
+                            e -> !strAuthors.contains(
                                     e
                             ))
                     .collect(Collectors.toList());
 
 
             try {
-//                tatCaTacGia.stream()
+//                authors.stream()
 //                        .filter(
-//                                e -> lstTenTacGia.contains(
+//                                e -> authorsName.contains(
 //                                        e.getTenTacGia()
 //                                ))
 //                        .collect(Collectors.toList()).forEach(e -> System.out.println(e.toString()));
-                lstDaDuocTao = tatCaTacGia.stream()
+                authorsCreated = authors.stream()
                         .filter(
-                                e -> lstTenTacGia.contains(
+                                e -> authorsName.contains(
                                         e.getTenTacGia()
                                 ))
                         .collect(Collectors.toList());
             } catch (Exception e) {
                 e.printStackTrace();
-                lstDaDuocTao = new ArrayList<>();
+                authorsCreated = new ArrayList<>();
             }
 
             // Tạo danh sách cần được tạo
-            for (String tacGia : lstTacGiaCanDuocTao) {
+            for (String tacGia : authorsNeedCreated) {
                 TacGia tacGiaX = new TacGia();
                 tacGiaX.setTenTacGia(tacGia);
                 tacGiaRepository.insert(tacGiaX);
@@ -113,7 +132,7 @@ public class SachController {
                 ).get(0);
 
                 // Add nó vô list được tạo, sau khi kết thúc sẽ cho 1 list đầy đủ
-                lstDaDuocTao.add(
+                authorsCreated.add(
                         getBackTacGia
                 );
             }
@@ -123,23 +142,44 @@ public class SachController {
             e.printStackTrace();
         }
 
-        return lstDaDuocTao;
+        return authorsCreated;
     }
 
+    /**
+     *
+     * @param sach rằng buộc đối tượng sách truyền vào - để sử dụng binding trong form spring
+     * @return trả về View Create sách
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String getCreate(Model model, @ModelAttribute("sach") Sach sach) {
-        model.addAttribute("lstTacGia", tacGiaRepository.getAll());
+    public String getCreate(@ModelAttribute("sach") Sach sach) {
         return "sach/Create";
     }
 
+    /**
+     * lấy chi tiết sách qua mã sách
+     * @param model model - giao tiếp giữa controller và view
+     * @param maSach mã sách
+     * @return lấy View chi tiết của sách thông qua mã sách
+     */
     @RequestMapping(value = "/detail/{maSach}", method = RequestMethod.GET)
     public String detail(Model model, @PathVariable Long maSach) {
         Sach sach = sachRepository.findId(maSach);
-        model.addAttribute("sach", sach);
+        if(sach == null) {
+            return "error";
+        } else {
+            model.addAttribute("sach", sach);
+            return "sach/Detail";
+        }
 
-        return "sach/Detail";
+
     }
 
+    /**
+     *
+     * @param model - giao tiếp giữa controller và view
+     * @param maSach mã sách
+     * @return
+     */
     @RequestMapping(value = "/update/{maSach}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long maSach) {
         Sach sach = sachRepository.findId(maSach);
@@ -148,21 +188,34 @@ public class SachController {
         return "sach/Update";
     }
 
+    /**
+     * @param sach rằng buộc đối tượng sách truyền vào - để sử dụng binding trong form spring
+     * @param lstTacgia chuỗi các tác giả chưa được cắt
+     * @return Trả về view quản lý sách nếu tạo thành công, ngược lại về trang cập nhật sách
+     */
     @RequestMapping(value = "/updatePost", method = RequestMethod.POST)
     public String updatePost(@ModelAttribute("sach") Sach sach, @RequestParam("lstTacgia") String lstTacgia) {
-        System.out.println(sach.toString());
-        List<TacGia> lstTGia =  xuLyTacGia(lstTacgia);
+//        System.out.println(sach.toString());
+        try {
+            List<TacGia> lstTGia = handleAuthors(lstTacgia);
+            sach.setLstTacGia(lstTGia);
+            sachRepository.update(sach);
 
-        sach.setLstTacGia(lstTGia);
-        sachRepository.update(sach);
-
-        return "sach/Index";
+            return "admin/Sach";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:sach/update/" + sach.getMaSach();
+        }
     }
 
-
+    /**
+     *
+     * @param maSach
+     * @return trả về JSON - danh sách tác giả của cuốn sách có mã sách bằng maSach
+     */
     @RequestMapping(value = "/getTacGia/{maSach}", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getTacGia(@PathVariable Long maSach) {
+    public List<String> getAuthors(@PathVariable Long maSach) {
         List<String> lstTenTacGia = sachRepository
                 .findId(maSach)
                 .getLstTacGia()
@@ -175,7 +228,7 @@ public class SachController {
 
     @RequestMapping(value = "/hinhAnhTieuBieu/{maSach}", method = RequestMethod.GET)
     @ResponseBody
-    public String getHinhAnhTieuBieu(@PathVariable Long maSach) {
+    public String getPresentPictures(@PathVariable Long maSach) {
         String hinhAnhTieuBieu = sachRepository
                 .findId(maSach)
                 .getHinhAnhTieuBieu();
@@ -183,17 +236,22 @@ public class SachController {
         return hinhAnhTieuBieu == null ? "" : hinhAnhTieuBieu;
     }
 
+    /**
+     * Chịu trách nhiệm lưu ảnh vào web server -
+     * @param file tập các file muốn lưu
+     * @return trả về Thành công hoặc thất bại - báo cho bên client biết
+     */
     @RequestMapping(value = "/postAnh", method = RequestMethod.POST)
     @ResponseBody
-    public String postAnh(MultipartFile[] file) {
+    public String postImages(MultipartFile[] file) {
         try{
-            System.out.println(file);
+//            System.out.println(file);
             String rootPath = servletContext.getRealPath("/");
             String uriPath = "resources" + File.separator + "static" + File.separator + "img";
             String pathResource = rootPath + uriPath;
 
             for (MultipartFile filePost : file) {
-                uploadAnh(filePost, pathResource);
+                uploadImage(filePost, pathResource);
             }
 
             return "Thanh Cong";
@@ -202,16 +260,25 @@ public class SachController {
         }
     }
 
+    /**
+     *
+     * @return Lấy tất cả sách
+     */
     @RequestMapping(value = "/getSach", method = RequestMethod.GET)
     @ResponseBody
-    public List<Sach> getSach() {
+    public List<Sach> getBooks() {
         List<Sach> lstSach = sachRepository.getAll();
         lstSach.forEach(e -> System.out.println(e.getLstTacGia().size()));
         return
                 lstSach;
     }
 
-    private void uploadAnh(MultipartFile file, String pathResource) {
+    /**
+     * Xử lý lưu ảnh
+     * @param file file muốn lưu
+     * @param pathResource đường dẫn lưu ảnh
+     */
+    private void uploadImage(MultipartFile file, String pathResource) {
         try {
             File dir = new File(pathResource);
             if (!dir.exists()) {
@@ -231,11 +298,5 @@ public class SachController {
             System.out.println("Fail");
             e.printStackTrace();
         }
-    }
-
-    @ModelAttribute("lstSach")
-    public List<Sach> lstSach() {
-        return
-                sachRepository.getAll();
     }
 }

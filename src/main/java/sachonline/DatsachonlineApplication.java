@@ -38,11 +38,14 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
 
     @Override
     @Transactional
-    public void run(String... args) throws Exception {
-//        addSachAndTacGia();
-//        addHoaDonNhapSach();
-//        addHoaDonBanSach();
-
+    public void run(String... args) {
+        try {
+//            addSachAndTacGia();
+//            addHoaDonNhapSach();
+//            addHoaDonBanSach();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        EntityGraph<Sach> entityGraph = entityManager.createEntityGraph(Sach.class);
 //        Subgraph<List<Sach>> sachNhapBan = entityGraph.addSubgraph("sachNhapBan");
 //
@@ -78,9 +81,6 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
 
         TacGia tacGia7 = new TacGia();
         tacGia7.setTenTacGia("Gomi Taro");
-
-        TacGia tacGia8 = new TacGia();
-        tacGia8.setTenTacGia("Gomi Taro");
 
         TacGia tacGia9 = new TacGia();
         tacGia9.setTenTacGia("Gosho Aoyama");
@@ -390,7 +390,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         entityManager.persist(sach6);
         entityManager.persist(tacGia7);
         entityManager.persist(sach7);
-        entityManager.persist(tacGia8);
+        entityManager.persist(tacGia7);
         entityManager.persist(sach8);
         entityManager.persist(tacGia9);
         entityManager.persist(sach9);
@@ -403,7 +403,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         sach5.addTacGia(tacGia5);
         sach6.addTacGia(tacGia6);
         sach7.addTacGia(tacGia7);
-        sach8.addTacGia(tacGia8);
+        sach8.addTacGia(tacGia7);
         sach9.addTacGia(tacGia9);
 
         tacGia.addSach(sach);
@@ -414,11 +414,12 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         tacGia5.addSach(sach5);
         tacGia6.addSach(sach6);
         tacGia7.addSach(sach7);
-        tacGia8.addSach(sach8);
+        tacGia7.addSach(sach8);
         tacGia9.addSach(sach9);
 
         entityManager.flush();
     }
+
     private void addHoaDonNhapSach() {
         Random random = new Random();
         // Địa chỉ
@@ -460,6 +461,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
 
         entityManager.flush();
     }
+
     private void addHoaDonBanSach() {
         Random random = new Random();
         DiaChi diaChi = addDiaChi(EnumDiaChi.DIA_CHI_CHUNG_CU, "Xuân La");
@@ -498,6 +500,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
 
         entityManager.flush();
     }
+
     private DiaChi addDiaChi(EnumDiaChi diaChiChungCu, String s) {
         DiaChi diaChi = new DiaChi();
         diaChi.setLoaiDiaChi(diaChiChungCu.toString());

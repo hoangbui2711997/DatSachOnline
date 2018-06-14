@@ -22,7 +22,7 @@
     }
 </style>
 
-<section class="section-body container" id="createSach">
+<section class="section-body container px-5" id="createSach">
     <spring:url value="/sach/create" var="urlPostCreate"/>
     <spring:url value="/img/" var="context" />
     <form:form modelAttribute="sach" enctype="multipart/form-data" action="${urlPostCreate}" method="post">
@@ -47,9 +47,11 @@
                         style="border-radius: 10px; display: inline-block;">
                         {{ tacGia }} <span class="pl-2" @click="deleteTacGia(tacGia)">&times;</span>
                     </li>
-                    <li><input type="text" style="display: inline-block;"
-                               id="input-inside" v-model="txtSearch" class="form-control"
-                    /></li>
+                    <li>
+                        <%--<input type="text" style="display: inline-block; width: 97%"--%>
+                               <%--id="input-inside" v-model="txtSearch" class="el-form-item"/>--%>
+                        <el-input id="input-inside" placeholder="Please input authors" v-model="txtSearch"></el-input>
+                    </li>
                 </ul>
             </div>
                 <%--<select class="form-control">--%>
@@ -67,12 +69,12 @@
 
         <div class="form-group">
             <label class="label"><h4>In Price</h4></label>
-            <form:input path="giaSachNhap" type="number" id="" cssClass="form-control"/>
+            <form:input path="giaSachNhap" min="0" type="number" id="" cssClass="form-control"/>
         </div>
 
         <div class="form-group">
             <label class="label"><h4>Out Price</h4></label>
-            <form:input path="giaSachBan" type="number" id="" cssClass="form-control"/>
+            <form:input path="giaSachBan" min="0" type="number" id="" cssClass="form-control"/>
         </div>
 
         <div class="form-group">
@@ -116,11 +118,6 @@
 
         <form:input path="hinhAnhTieuBieu" v-model="lstHinhAnhTieuBieu" hidden="true"/>
         <form:input path="biaSach" v-model="biaSach" hidden="true"/>
-
-        <div class="form-group">
-            <label class="label"><h4>Images descripted</h4></label>
-
-        </div>
 
         <div class="form-group">
             <label class="label"><h4>Images descripted</h4></label>

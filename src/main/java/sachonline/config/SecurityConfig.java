@@ -72,6 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ////        http.authorizeRequests().regexMatchers("/chief/.*").hasRole("USER")
 ////        BasicAuthenticationFilter filter = new BasicAuthenticationFilter(super.authenticationManagerBean());
 //
+
+        http
+                .csrf()
+                .disable();
         http.authorizeRequests()
                 .regexMatchers("/js/.*", "/css/.*", "/img/.*")
                 .permitAll()
@@ -79,7 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .regexMatchers("/sach/index")
                 .permitAll()
-                .regexMatchers("/admin/.*", "/sach/update/.*", "/sach/create")
+                .regexMatchers("/admin/.*", "/sach/update/.*", "/sach/create", "/sach/delete/.*"
+                        , "/sach/postImages"
+                )
 //                .access("hasRole('ADMIN') and principal.username='admin'").anyRequest()
                 .hasRole("ADMIN")
         ;

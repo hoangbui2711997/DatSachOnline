@@ -36,7 +36,7 @@
                 <%--//     },--%>
                 <%--// }--%>
 
-                <%--axios.post('<spring:url value="/sach/postAnh" />', formData)--%>
+                <%--axios.post('<spring:url value="/sach/postImages" />', formData)--%>
                     <%--.then(function (value) {--%>
                         <%--console.log("Thanh cong")--%>
                     <%--})--%>
@@ -46,7 +46,7 @@
 
                 <%--&lt;%&ndash;axios({&ndash;%&gt;--%>
                     <%--&lt;%&ndash;method: 'post',&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;url: '<spring:url value="/sach/postAnh" />',&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;url: '<spring:url value="/sach/postImages" />',&ndash;%&gt;--%>
                     <%--&lt;%&ndash;data: {&ndash;%&gt;--%>
                         <%--&lt;%&ndash;filePost: formData&ndash;%&gt;--%>
                     <%--&lt;%&ndash;},&ndash;%&gt;--%>

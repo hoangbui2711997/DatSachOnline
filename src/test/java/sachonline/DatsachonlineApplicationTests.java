@@ -1,5 +1,6 @@
 package sachonline;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -500,7 +501,7 @@ public class DatsachonlineApplicationTests {
     public void testGetData() {
 //         Test getDataSach ---------------------------
 //        Sach sach = entityManager.find(Sach.class, 1L);
-//        List<TacGia> lstAllTacGia = sach.getTacGia();
+//        List<TacGia> lstAllTacGia = sach.getAuthors();
 //        System.out.println(sach.toString());
 //        lstAllTacGia.forEach(e -> System.out.println(e.getTenTacGia()));
 //         Test getDataSach ---------------------------
@@ -521,15 +522,46 @@ public class DatsachonlineApplicationTests {
     @Transactional
     public void TestGioHang() {
         // Lay sach trong csdl
+        Sach sachA = entityManager.find(Sach.class, 22L);
+        Sach sachB = entityManager.find(Sach.class, 24L);
         gioHangService
-                .addSach(entityManager.find(Sach.class, 1L), 10);
+                .addSach(sachA, 10);
+        gioHangService
+                .addSach(sachB, 10);
 
         // Dua vao gio hang tinh tien
         gioHangService
                 .getAllSach()
-                .forEach((sach, soLuong) -> logger.info("Element of gioHang => {}", gioHangService.getChiTiet(sach, soLuong)));
+                .forEach((sach, soLuong) -> logger.info("Element of gioHang => {}",
+                        gioHangService.getChiTiet(sach, soLuong)));
         logger
                 .info("Thanh tien => {}", gioHangService.thanhTien());
+
+        // Bot sach di
+        gioHangService
+                .subtractSach(sachA, 2);
+
+        Long amountLeft = gioHangService.getAllSach().get(sachA);
+        Assert.assertTrue(amountLeft == 8);
+
+        double tienSachA = sachA.getGiaSachBan() * 8;
+        double tienSachB = sachB.getGiaSachBan() * 10;
+
+        double tongTienSach =
+                (tienSachA * (100 - sachA.getTiLeKhuyenMai()) +
+                tienSachB * (100 - sachA.getTiLeKhuyenMai())) / 100;
+        Assert.assertTrue(tongTienSach == gioHangService.thanhTien());
+
+        // Tinh tien
+        gioHangService
+                .getAllSach()
+                .forEach((sach, soLuong) -> logger.info("Element of gioHang => {}",
+                        gioHangService.getChiTiet(sach, soLuong)));
+        logger
+                .info("Thanh tien => {}", gioHangService.thanhTien());
+
+
+
     }
 
     @Test

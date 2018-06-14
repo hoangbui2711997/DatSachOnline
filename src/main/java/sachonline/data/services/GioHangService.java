@@ -78,7 +78,12 @@ public class GioHangService {
                     .stream()
                     .mapToDouble(sach -> {
 //                 lay gia tien * so luong
-                        return sach.getKey().getGiaSachBan() * sach.getValue();
+                        double giaBan = sach.getKey().getGiaSachBan();
+                        double soLuong = sach.getValue();
+                        short tiLeKhuyenMai = sach.getKey().getTiLeKhuyenMai();
+                        double tongTienMotLoaiSach = giaBan * soLuong / 100 *  (100 - tiLeKhuyenMai);
+
+                        return tongTienMotLoaiSach;
                     }).sum();
 
             return thanhTien;
@@ -86,6 +91,7 @@ public class GioHangService {
     }
 
     public String getChiTiet(Sach sach, long soLuong) {
-        return "Sach --- " + sach.toString() + "\n So luong -- " + soLuong;
+        return "\nTên sách: " + sach.getTenSach() + "\nGiá 1 quyển: "+ sach.getGiaSachBan()
+                + "\nSố lượng: " + soLuong;
     }
 }

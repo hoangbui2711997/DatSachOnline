@@ -22,7 +22,7 @@
 <%--<div class="col-0 col-md-2"></div>--%>
 <%--<div class="col-12 col-md-9">--%>
 <%--<div class="text-center row w-100">--%>
-<%--<c:forEach items="${lstSach}" var="item">--%>
+<%--<c:forEach items="${attBooks}" var="item">--%>
 <%--<div class="col-xl-3 col-lg-4 col-md-6 col-12" style="horiz-align: center">--%>
 <%--<div class="myCard text-center">--%>
 <%--<a href="${update}/${item.maSach}">--%>
@@ -61,7 +61,7 @@
         <div class="col-0 col-md-2"></div>
         <div class="col-12 col-md-9">
             <div class="text-center row w-100">
-                <%--<c:forEach items="${lstSach}" var="item">--%>
+                <%--<c:forEach items="${attBooks}" var="item">--%>
                 <div v-for="sach in lstSearch" class="col-xl-3 col-lg-4 col-md-6 col-12" style="horiz-align: center">
                     <div class="myCard text-center">
                         <a :href="'${detail}' + '/' + sach.maSach">
@@ -90,6 +90,17 @@
                                 <%--${tacGia.tenTacGia}--%>
                                 <%--</c:forEach>--%>
                             </p>
+                                <p>
+                                    <el-rate
+                                            v-model="sach.danhGia"
+                                            text-color="#ff9900"
+                                            disabled
+                                            :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
+                                            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                                            show-text
+                                    >
+                                    </el-rate>
+                                </p>
                             <p>
                                         <span class="myCard--price">{{sach.giaSachBan
                                                 - (sach.giaSachBan * sach.tiLeKhuyenMai / 100)}}

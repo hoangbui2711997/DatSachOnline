@@ -11,3 +11,17 @@ Plaftform: Web based
 
 
 ---- tags: Vuejs, Spring boot, Spring MVC, Hibernate-JPA, bootstrap, html, css, js
+
+
+-- Nguyên tắc viết code - Mọi thành viên tham gia dự án phải tuân thủ
+- Viết mã <= 80 ký tự trên 1 dòng
+- Đối với tên biến sử dụng camel key chữ đầu tiên trong 1 từ viết thường còn lại viết
+hoa chữ đầu tiên của các từ tiếp theo
+- Những biến static toàn cục viết hoa toàn bộ
+- Đặt tên biến gợi nhớ
+- Tên phương thức bắt đầu bằng động từ như get, do, set, ....
+- Đối với những chức năng chú thích bên trên giải thích.
+- Tên file viết hoa chứ đầu tiên của 1 từ (vd: class GioHang,...)
+- Nếu sử dụng tham số, giải thích rõ tham số là gì, lấy từ đâu.
+- Chắc chắn rằng phương thức đã đúng đắn (đã qua quá trình kiểm thử) rồi mới đưa vào chương trình.
+

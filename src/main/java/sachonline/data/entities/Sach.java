@@ -30,7 +30,7 @@ public class Sach {
     private String gioiThieu;
     private String tenSach;
     private String nhaXuatBan, congTyPhatHanh;
-
+    private float danhGia;
     @Column(nullable = true)
     private String biaSach;
     @Column(nullable = true, length = 2000)
@@ -73,7 +73,15 @@ public class Sach {
         this.hinhAnhTieuBieu = hinhAnhTieuBieu;
     }
 
-    public Sach(int soTrang, Date ngayXuatBan, double giaSachBan, double giaSachNhap, String kickThuoc, short tiLeKhuyenMai, String gioiThieu, String tenSach, String nhaXuatBan, String congTyPhatHanh, String biaSach, String hinhAnhTieuBieu, List<SachNhapBan> sachNhapBan, List<TacGia> lstTacGia) {
+    public float getDanhGia() {
+        return danhGia;
+    }
+
+    public void setDanhGia(float danhGia) {
+        this.danhGia = danhGia;
+    }
+
+    public Sach(int soTrang, Date ngayXuatBan, double giaSachBan, double giaSachNhap, String kickThuoc, short tiLeKhuyenMai, String gioiThieu, String tenSach, String nhaXuatBan, String congTyPhatHanh, String biaSach, String hinhAnhTieuBieu, List<SachNhapBan> sachNhapBan, List<TacGia> lstTacGia, float danhGia) {
         this.soTrang = soTrang;
         this.ngayXuatBan = ngayXuatBan;
         this.giaSachBan = giaSachBan;
@@ -88,6 +96,7 @@ public class Sach {
         this.hinhAnhTieuBieu = hinhAnhTieuBieu;
         this.sachNhapBan = sachNhapBan;
         this.lstTacGia = lstTacGia;
+        this.danhGia = danhGia;
     }
 
     public String getCongTyPhatHanh() {
@@ -127,9 +136,7 @@ public class Sach {
         this.lstTacGia = lstTacGia;
     }
 
-    @ManyToMany(cascade = {
-            CascadeType.ALL
-    }, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "sach_tacgia",
             joinColumns = {
