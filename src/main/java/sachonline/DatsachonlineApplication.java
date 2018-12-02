@@ -1,5 +1,14 @@
 package sachonline;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Random;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,36 +16,30 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import sachonline.data.entities.*;
-import sachonline.data.repositories.SachRepository;
 
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Subgraph;
-import javax.transaction.Transactional;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Random;
+import sachonline.data.entities.DiaChi;
+import sachonline.data.entities.EnumDiaChi;
+import sachonline.data.entities.HoaDon;
+import sachonline.data.entities.Sach;
+import sachonline.data.entities.SachNhapBan;
+import sachonline.data.entities.TacGia;
+import sachonline.data.repositories.SachRepository;
 
 @SpringBootApplication
 public class DatsachonlineApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
-    @Autowired
-    EntityManager entityManager;
-    @Autowired
-    SachRepository sachRepository;
+        @Autowired
+        EntityManager entityManager;
+        @Autowired
+        SachRepository sachRepository;
 
-    Logger logThis = LoggerFactory.getLogger(this.getClass());
+        Logger logThis = LoggerFactory.getLogger(this.getClass());
 
-    public static void main(String[] args) {
-        SpringApplication.run(DatsachonlineApplication.class, args);
-    }
+        public static void main(String[] args) {
+                SpringApplication.run(DatsachonlineApplication.class, args);
+        }
 
-    @Override
+        @Override
     @Transactional
     public void run(String... args) {
         try {
@@ -78,6 +81,7 @@ public class DatsachonlineApplication extends SpringBootServletInitializer imple
         tacGia5.setTenTacGia("Nhiều Tác Giả");
 
         TacGia tacGia6 = new TacGia();
+        tacGia6.setTenTacGia("Tác Giả 6");
 
         TacGia tacGia7 = new TacGia();
         tacGia7.setTenTacGia("Gomi Taro");

@@ -14,9 +14,4 @@ public class TestController {
     public String home() {
         return "main";
     }
-
-//    @RequestMapping(value = "/test")
-//    public String test() {
-//        return "abc.html";
-//    }
 }

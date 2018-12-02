@@ -70,10 +70,19 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
         </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <!--<version>6.1.0.jre8</version>-->
+            <!--<scope>test</scope>-->
+        </dependency>
+
 
         <!--Add cái này vì nó bị remove ở jdk >= 9-->
         <dependency>
@@ -148,6 +157,4 @@
             <!--</plugin>-->
         </plugins>
     </build>
-
-
 </project>

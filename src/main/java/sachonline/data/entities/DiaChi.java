@@ -2,6 +2,8 @@ package sachonline.data.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,9 +18,13 @@ public class DiaChi {
     @Id
     @GeneratedValue
     private Long maDiaChi;
+    @Column(columnDefinition = "nvarchar(100)")
     private String phuongXa;
+    @Column(columnDefinition = "nvarchar(100)")
     private String quanHuyen;
+    @Column(columnDefinition = "nvarchar(100)")
     private String tinhThanhPho;
+    @Column(columnDefinition = "nvarchar(100)")
     private String chiTietDiaChi;
 
     @Override

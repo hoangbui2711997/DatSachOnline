@@ -8,12 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/user")
 public class LoginController {
 
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public String login(String username, String password) {
-//        return "login";
-//    }
-//
-
     /**
      * lấy form login
      * @return
@@ -22,7 +16,6 @@ public class LoginController {
     public String getLogin() {
         return "login";
     }
-
 
     /**
      * hoàn tất form đăng ký

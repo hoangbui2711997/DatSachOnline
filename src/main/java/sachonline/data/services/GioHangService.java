@@ -63,17 +63,6 @@ public class GioHangService {
         if(gioHang == null || gioHang.isEmpty()) {
             return 0;
         } else {
-            // Neu muon tra ve List so tien tung cai 1
-////            .boxed return stream contain element
-//            List<Double> lstGiaTien = gioHang.entrySet()
-//                    .stream()
-//                    .mapToDouble(sach -> {
-////                 lay gia tien * so luong
-//                return sach.getKey().getGiaSachBan() * sach.getValue();
-//            })
-//                    .boxed()
-//                    .collect(Collectors.toList());
-
             double thanhTien = gioHang.entrySet()
                     .stream()
                     .mapToDouble(sach -> {

@@ -18,7 +18,7 @@ public class TacGia {
     @Id
     @GeneratedValue
     private Long maTacGia;
-    @Column(unique = true)
+    @Column(columnDefinition = "nvarchar(100) unique")
     private String tenTacGia;
 
 

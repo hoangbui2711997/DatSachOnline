@@ -19,12 +19,15 @@ public class HoaDon {
     @JoinColumn(name = "maDiaChi")
     private DiaChi diaChi;
 
+    @Column(columnDefinition = "varchar(15)")
     private String dienThoai;
     private Timestamp ngayGiaoToi;
 
     @CreationTimestamp
     private Timestamp ngayDat;
+    @Column(columnDefinition = "nvarchar(100)")
     private String tenNguoiNhan;
+    @Column(columnDefinition = "ntext")
     private String moTa;
 
     public String getMoTa() {

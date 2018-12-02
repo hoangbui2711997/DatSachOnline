@@ -28,7 +28,6 @@ public class TacGiaController {
     @RequestMapping("/getall")
     @ResponseBody
     public List<String> getAll() {
-
         List<String> lstNameTacGia = tacGiaRepository
                 .getAll()
                 .stream()

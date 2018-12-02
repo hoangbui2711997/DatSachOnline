@@ -24,16 +24,21 @@ public class Sach {
     Date ngayXuatBan;
     private double giaSachBan;
     private double giaSachNhap;
+    @Column(columnDefinition = "varchar(50)")
     private String kickThuoc;
     private short tiLeKhuyenMai;
-    @Column(name = "gioiThieu", length = 6000)
+    @Column(columnDefinition = "ntext")
     private String gioiThieu;
+    @Column(columnDefinition = "nvarchar(100)")
     private String tenSach;
-    private String nhaXuatBan, congTyPhatHanh;
+    @Column(columnDefinition = "nvarchar(100)")
+    private String nhaXuatBan;
+    @Column(columnDefinition = "nvarchar(100)")
+    private String congTyPhatHanh;
     private float danhGia;
-    @Column(nullable = true)
+    @Column(columnDefinition = "nvarchar(100)")
     private String biaSach;
-    @Column(nullable = true, length = 2000)
+    @Column(columnDefinition = "ntext")
     private String hinhAnhTieuBieu;
 
     @Override
@@ -227,6 +232,58 @@ public class Sach {
 
     public String getTenSach() {
         return tenSach;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Sach)) return false;
+
+        Sach sach = (Sach) o;
+
+        if (soTrang != sach.soTrang) return false;
+        if (Double.compare(sach.giaSachBan, giaSachBan) != 0) return false;
+        if (Double.compare(sach.giaSachNhap, giaSachNhap) != 0) return false;
+        if (tiLeKhuyenMai != sach.tiLeKhuyenMai) return false;
+        if (Float.compare(sach.danhGia, danhGia) != 0) return false;
+        if (maSach != null ? !maSach.equals(sach.maSach) : sach.maSach != null) return false;
+        if (ngayXuatBan != null ? !ngayXuatBan.equals(sach.ngayXuatBan) : sach.ngayXuatBan != null) return false;
+        if (kickThuoc != null ? !kickThuoc.equals(sach.kickThuoc) : sach.kickThuoc != null) return false;
+        if (gioiThieu != null ? !gioiThieu.equals(sach.gioiThieu) : sach.gioiThieu != null) return false;
+        if (tenSach != null ? !tenSach.equals(sach.tenSach) : sach.tenSach != null) return false;
+        if (nhaXuatBan != null ? !nhaXuatBan.equals(sach.nhaXuatBan) : sach.nhaXuatBan != null) return false;
+        if (congTyPhatHanh != null ? !congTyPhatHanh.equals(sach.congTyPhatHanh) : sach.congTyPhatHanh != null)
+            return false;
+        if (biaSach != null ? !biaSach.equals(sach.biaSach) : sach.biaSach != null) return false;
+        if (hinhAnhTieuBieu != null ? !hinhAnhTieuBieu.equals(sach.hinhAnhTieuBieu) : sach.hinhAnhTieuBieu != null)
+            return false;
+        if (sachNhapBan != null ? !sachNhapBan.equals(sach.sachNhapBan) : sach.sachNhapBan != null) return false;
+        return lstTacGia != null ? lstTacGia.equals(sach.lstTacGia) : sach.lstTacGia == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = maSach != null ? maSach.hashCode() : 0;
+        result = 31 * result + soTrang;
+        result = 31 * result + (ngayXuatBan != null ? ngayXuatBan.hashCode() : 0);
+        temp = Double.doubleToLongBits(giaSachBan);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(giaSachNhap);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (kickThuoc != null ? kickThuoc.hashCode() : 0);
+        result = 31 * result + (int) tiLeKhuyenMai;
+        result = 31 * result + (gioiThieu != null ? gioiThieu.hashCode() : 0);
+        result = 31 * result + (tenSach != null ? tenSach.hashCode() : 0);
+        result = 31 * result + (nhaXuatBan != null ? nhaXuatBan.hashCode() : 0);
+        result = 31 * result + (congTyPhatHanh != null ? congTyPhatHanh.hashCode() : 0);
+        result = 31 * result + (danhGia != +0.0f ? Float.floatToIntBits(danhGia) : 0);
+        result = 31 * result + (biaSach != null ? biaSach.hashCode() : 0);
+        result = 31 * result + (hinhAnhTieuBieu != null ? hinhAnhTieuBieu.hashCode() : 0);
+        result = 31 * result + (sachNhapBan != null ? sachNhapBan.hashCode() : 0);
+        result = 31 * result + (lstTacGia != null ? lstTacGia.hashCode() : 0);
+        return result;
     }
 
     public void setTenSach(String tenSach) {

@@ -2,10 +2,7 @@ package sachonline.data.entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -16,6 +13,7 @@ public class KhuyenMai {
     private Timestamp ngayBatDau;
 
     private Timestamp ngayKetThuc;
+    @Column(columnDefinition = "ntext")
     private String moTa;
 
     @Id

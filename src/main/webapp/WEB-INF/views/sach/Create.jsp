@@ -148,6 +148,7 @@
         </div>
 
         <button type="submit" class="btn btn-block btn-success">Create the book</button>
+        <security:csrfInput/>
     </form:form>
 </section>
 

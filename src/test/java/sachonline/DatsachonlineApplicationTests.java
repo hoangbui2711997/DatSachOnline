@@ -559,9 +559,6 @@ public class DatsachonlineApplicationTests {
                         gioHangService.getChiTiet(sach, soLuong)));
         logger
                 .info("Thanh tien => {}", gioHangService.thanhTien());
-
-
-
     }
 
     @Test

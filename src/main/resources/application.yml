@@ -1,0 +1,40 @@
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+server:
+  servlet:
+    context-path: /api
+spring:
+  datasource:
+    password: tThangbe1!
+    url: jdbc:sqlserver://localhost:1433;databaseName=datsachonline
+    username: sa
+  http:
+    encoding:
+      charset: UTF-8
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        cache:
+          region:
+            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+          use_second_level_cache: true;
+        connection:
+          isolation: 2
+        format_sql: true
+      javax:
+        persistence:
+          shareCache:
+            mode: ENABLE_SELECTIVE
+    show-sql: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  resources:
+    add-mappings: true
+che?

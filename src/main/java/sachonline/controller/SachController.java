@@ -9,16 +9,23 @@ import sachonline.data.entities.Sach;
 import sachonline.data.entities.TacGia;
 import sachonline.data.repositories.SachRepository;
 import sachonline.data.repositories.TacGiaRepository;
+import sachonline.data.services.StoreSupport;
+import sun.net.www.http.HttpClient;
 
 import javax.servlet.ServletContext;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/sach")
@@ -33,6 +40,7 @@ public class SachController {
 
     /**
      * lấy ra trang chủ
+     *
      * @return View trang chủ
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -41,8 +49,7 @@ public class SachController {
     }
 
     /**
-     *
-     * @param sach đối tượng được tạo
+     * @param sach      đối tượng được tạo
      * @param lstTacgia danh sách tác giả -
      * @return Trả về view quản lý sách nếu tạo thành công, ngược lại về trang tạo sách
      * @throws IOException
@@ -50,10 +57,8 @@ public class SachController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String doCreate(
             @ModelAttribute("sach") Sach sach
-            ,@RequestParam("lstTacgia") String lstTacgia
+            , @RequestParam("lstTacgia") String lstTacgia
     ) throws IOException {
-//        String rootPath = System.getProperty("catalina.home");
-
         // Xử lý List tác giả
         try {
             List<TacGia> lstDaDuocTao = handleAuthors(lstTacgia);
@@ -64,17 +69,9 @@ public class SachController {
         } catch (Exception e) {
             return "sach/Create";
         }
-//        if (!file.isEmpty()) {
-//            file.getBytes();
-//            String rootPath = System.getProperty("catalina.home");
-//            Path path = Files.createFile(Paths.get(""));
-//
-//        }
-
     }
 
     /**
-     *
      * @param lstTacgia chuỗi các tác giả bao gồm đã tạo và có thể có chưa được tạo trong Database
      * @return trả về danh sách tác giả được tạo và đã tạo
      */
@@ -100,15 +97,7 @@ public class SachController {
                                     e
                             ))
                     .collect(Collectors.toList());
-
-
             try {
-//                authors.stream()
-//                        .filter(
-//                                e -> authorsName.contains(
-//                                        e.getTenTacGia()
-//                                ))
-//                        .collect(Collectors.toList()).forEach(e -> System.out.println(e.toString()));
                 authorsCreated = authors.stream()
                         .filter(
                                 e -> authorsName.contains(
@@ -136,8 +125,6 @@ public class SachController {
                         getBackTacGia
                 );
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,7 +133,6 @@ public class SachController {
     }
 
     /**
-     *
      * @param sach rằng buộc đối tượng sách truyền vào - để sử dụng binding trong form spring
      * @return trả về View Create sách
      */
@@ -157,26 +143,62 @@ public class SachController {
 
     /**
      * lấy chi tiết sách qua mã sách
-     * @param model model - giao tiếp giữa controller và view
+     *
+     * @param model  model - giao tiếp giữa controller và view
      * @param maSach mã sách
      * @return lấy View chi tiết của sách thông qua mã sách
      */
+
     @RequestMapping(value = "/detail/{maSach}", method = RequestMethod.GET)
-    public String detail(Model model, @PathVariable Long maSach) {
+    public String detail(Model model, @PathVariable Long maSach,
+                         HttpSession httpSession) throws IOException {
+//        Integer soLuong = getSoLuong(request, maSach);
         Sach sach = sachRepository.findId(maSach);
-        if(sach == null) {
+        int soLuong = 0;
+
+        soLuong = getSoLuong(maSach, httpSession, soLuong);
+
+        model.addAttribute("soLuong", soLuong);
+
+        if (sach == null) {
             return "error";
         } else {
             model.addAttribute("sach", sach);
             return "sach/Detail";
         }
+    }
 
+    private int getSoLuong(@PathVariable Long maSach, HttpSession httpSession, int soLuong) {
+        List<StoreSupport> gioHang =
+                (List<StoreSupport>) httpSession
+                .getAttribute("gioHang");
 
+        Stream<StoreSupport> stream = null;
+        if (gioHang != null) {
+            stream = gioHang
+                    .stream();
+        }
+        Stream<StoreSupport> storeSupportStream = null;
+        if (stream != null) {
+            storeSupportStream = stream
+                    .filter(e -> e.getMaSach() == maSach);
+        }
+
+        if (storeSupportStream != null) {
+            Optional<StoreSupport> first = storeSupportStream
+                    .findFirst();
+            if(first.isPresent()) {
+                soLuong = first
+                        .get()
+                        .getSoLuong();
+            }
+        }
+
+        return soLuong;
     }
 
     /**
-     *
-     * @param model - giao tiếp giữa controller và view
+     * @param model  - giao tiếp giữa controller và view
      * @param maSach mã sách
      * @return
      */
@@ -189,7 +211,7 @@ public class SachController {
     }
 
     /**
-     * @param sach rằng buộc đối tượng sách truyền vào - để sử dụng binding trong form spring
+     * @param sach      rằng buộc đối tượng sách truyền vào - để sử dụng binding trong form spring
      * @param lstTacgia chuỗi các tác giả chưa được cắt
      * @return Trả về view quản lý sách nếu tạo thành công, ngược lại về trang cập nhật sách
      */
@@ -209,7 +231,6 @@ public class SachController {
     }
 
     /**
-     *
      * @param maSach
      * @return trả về JSON - danh sách tác giả của cuốn sách có mã sách bằng maSach
      */
@@ -238,13 +259,14 @@ public class SachController {
 
     /**
      * Chịu trách nhiệm lưu ảnh vào web server -
+     *
      * @param file tập các file muốn lưu
      * @return trả về Thành công hoặc thất bại - báo cho bên client biết
      */
     @RequestMapping(value = "/postAnh", method = RequestMethod.POST)
     @ResponseBody
     public String postImages(MultipartFile[] file) {
-        try{
+        try {
 //            System.out.println(file);
             String rootPath = servletContext.getRealPath("/");
             String uriPath = "resources" + File.separator + "static" + File.separator + "img";
@@ -255,27 +277,26 @@ public class SachController {
             }
 
             return "Thanh Cong";
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "That bai";
         }
     }
 
     /**
-     *
      * @return Lấy tất cả sách
      */
     @RequestMapping(value = "/getSach", method = RequestMethod.GET)
     @ResponseBody
     public List<Sach> getBooks() {
         List<Sach> lstSach = sachRepository.getAll();
-        lstSach.forEach(e -> System.out.println(e.getLstTacGia().size()));
         return
                 lstSach;
     }
 
     /**
      * Xử lý lưu ảnh
-     * @param file file muốn lưu
+     *
+     * @param file         file muốn lưu
      * @param pathResource đường dẫn lưu ảnh
      */
     private void uploadImage(MultipartFile file, String pathResource) {

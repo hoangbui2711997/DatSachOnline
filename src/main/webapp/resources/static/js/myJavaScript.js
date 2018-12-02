@@ -29,7 +29,10 @@ var vm1 = new Vue({
     data() {
         return {
             searchGlobal: '',
-            showSearch: true
+            showSearch: true,
+            dialogFormVisible: false,
+            storeData: [],
+            total: null
         }
     },
     methods: {
@@ -37,6 +40,23 @@ var vm1 = new Vue({
             // console.log(this.$refs.search)
             this.searchGlobal = this.$refs.search.value
             console.log(this.$refs.search.value)
+        },
+        showCard() {
+            axios
+                .get('/api/store/getTotal', {})
+                .then((resp) => vm1.$data.total = resp.data)
+                .catch((error) => console.log('Loi: ' + error))
+
+            axios
+                .get('/api/store/getGioHang', {})
+                .then((resp) => vm1.$data.storeData = resp.data
+                )
+                .catch((error) => console.log('Loi: ' + error))
+
+            this.dialogFormVisible = true;
+        },
+        handleChange() {
+            console.log('change')
         }
     }
 })

@@ -155,6 +155,7 @@
         </div>
 
         <button type="submit" class="btn btn-block btn-success">Update the book</button>
+        <security:csrfInput/>
     </form:form>
 </section>
 <%@ include file="../fragment/footer.jsp" %>
